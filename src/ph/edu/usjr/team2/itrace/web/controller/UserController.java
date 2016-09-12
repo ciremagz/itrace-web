@@ -121,7 +121,7 @@ public class UserController {
 			@RequestParam("songIdList") String[] songIdList,
 			@RequestParam("playlistName") String playlistName,
 			HttpServletRequest request){
-		ModelAndView mav = new ModelAndView("playlist");
+		ModelAndView mav = new ModelAndView();
 		String username = (String) request.getSession().getAttribute("username");
 		System.out.println("Running UserController.savePlaylist().");
 		System.out.println("Username from session: "+username);
@@ -143,7 +143,8 @@ public class UserController {
 		header.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
 		PlaylistResponse playlistResponse = restTemplate.postForObject(webHost+"/savePlaylist", entity, PlaylistResponse.class);
-		
+		NavigationController nc = new NavigationController();
+		mav = nc.showPlaylist(request);
 		return mav;
 	}
 
