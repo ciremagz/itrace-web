@@ -42,7 +42,7 @@
 	<hr>
 	<form action="savePlaylist" method="POST">
 		<input type="text" id="songIdList" name="songIdList" hidden="true"/>
-		<input type="text" name="name" placeholder="playlist name"/>
+		<input type="text" name="playlistName" placeholder="playlist name"/>
 		<input type="submit" value="savePlaylist"/>
 	</form>
 	<%

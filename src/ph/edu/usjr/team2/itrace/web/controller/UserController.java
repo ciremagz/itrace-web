@@ -116,7 +116,10 @@ public class UserController {
 	}
 
 	@RequestMapping(value="/savePlaylist")
-	public ModelAndView savePlayList(@RequestParam("songIdList") String[] songIdList,HttpServletRequest request){
+	public ModelAndView savePlayList(
+			@RequestParam("songIdList") String[] songIdList,
+			@RequestParam("playlistName") String playlistName,
+			HttpServletRequest request){
 		ModelAndView mav = new ModelAndView("playlist");
 		String username = (String) request.getSession().getAttribute("username");
 		System.out.println("Running UserController.savePlaylist().");
@@ -127,7 +130,7 @@ public class UserController {
 		User user = new User(username);
 		playlist.setSongIdList(songIdList);
 		playlist.setUser(user);
-		
+		playlist.setPlaylistName(playlistName);
 		
 		// converting user object to json
 		Gson gson = new Gson();
