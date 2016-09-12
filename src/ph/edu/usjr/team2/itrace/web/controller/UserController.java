@@ -22,6 +22,7 @@ import ph.edu.usjr.team2.itrace.web.model.Playlist;
 import ph.edu.usjr.team2.itrace.web.model.Song;
 import ph.edu.usjr.team2.itrace.web.model.User;
 import ph.edu.usjr.team2.itrace.web.model.Vote;
+import ph.edu.usjr.team2.itrace.web.response.LoginResponse;
 import ph.edu.usjr.team2.itrace.web.response.PlaylistResponse;
 import ph.edu.usjr.team2.itrace.web.response.ProfileResponse;
 
@@ -48,20 +49,18 @@ public class UserController {
 		header.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
 
-		User fetchedUser = restTemplate.postForObject(webHost + "/login", entity, User.class);
+		LoginResponse loginResponse = restTemplate.postForObject(webHost + "/login", entity, LoginResponse.class);
 
-		if (fetchedUser == null) {
-			mav.setViewName("index");
-			mav.addObject("system_message", "wrong input");
-		} else {
-			System.out.println("fetchedUser(UI)" + fetchedUser.toString());
+		if (loginResponse.getMessage().getFlag()) {
 			mav.setViewName("library");
+			// creating session
+			session.invalidate();
+			HttpSession newSession = request.getSession();
+			newSession.setAttribute("username", user.getUsername());
+		} else {
+			mav.setViewName("index");
+			mav.addObject("system_message",loginResponse.getMessage().getMessage());
 		}
-
-		// creating session
-		session.invalidate();
-		HttpSession newSession = request.getSession();
-		newSession.setAttribute("username", fetchedUser.getUsername());
 
 		return mav;
 	}

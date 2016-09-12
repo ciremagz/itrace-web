@@ -1,41 +1,26 @@
 package ph.edu.usjr.team2.itrace.web.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-
-
 public class User {
 
-	
-	
 	private long userId;
-
 
 	private String username;
 
-	
 	private String password;
 
-	
 	private String email;
 
-	
 	private String gender;
-	
-	
+
 	private String dateOfBirth;
 
 	public User() {
 	}
 
-	public User(String username){
+	public User(String username) {
 		this.username = username;
 	}
+
 	public User(long userId, String username, String password, String email, String dateOfBirth, String gender) {
 		super();
 		this.userId = userId;
@@ -96,7 +81,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", password=" + password + ", username=" + username + ", email=" + email + ", gender=" + gender + ", date_of_birth=" + dateOfBirth +"]";
+		return "User [userId=" + userId + ", password=" + password + ", username=" + username + ", email=" + email
+				+ ", gender=" + gender + ", date_of_birth=" + dateOfBirth + "]";
 	}
 
 }
