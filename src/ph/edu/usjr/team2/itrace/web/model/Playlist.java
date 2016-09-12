@@ -6,6 +6,8 @@ public class Playlist {
 	private User user;
 	private List<Song> songList;
 	private String[] songIdList;
+	private String playlistName;
+	
 	
 	public Playlist(){}
 
@@ -31,6 +33,14 @@ public class Playlist {
 
 	public void setSongIdList(String[] songIdList) {
 		this.songIdList = songIdList;
+	}
+
+	public String getPlaylistName() {
+		return playlistName;
+	}
+
+	public void setPlaylistName(String playlistName) {
+		this.playlistName = playlistName;
 	}
 	
 	
