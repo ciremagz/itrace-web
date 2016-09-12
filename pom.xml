@@ -44,11 +44,7 @@
 			<artifactId>json</artifactId>
 			<version>20151123</version>
 		</dependency>
-		<dependency>
-			<groupId>vn.com.fsoft.itrace</groupId>
-			<artifactId>itrace-data</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+
 
 		<!-- GSON -->
 		<dependency>

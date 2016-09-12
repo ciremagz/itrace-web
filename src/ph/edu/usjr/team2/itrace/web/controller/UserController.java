@@ -21,7 +21,6 @@ import ph.edu.usjr.team2.itrace.web.model.Message;
 import ph.edu.usjr.team2.itrace.web.model.Playlist;
 import ph.edu.usjr.team2.itrace.web.model.Song;
 import ph.edu.usjr.team2.itrace.web.model.User;
-import ph.edu.usjr.team2.itrace.web.model.Vote;
 import ph.edu.usjr.team2.itrace.web.response.PlaylistResponse;
 import ph.edu.usjr.team2.itrace.web.response.ProfileResponse;
 
