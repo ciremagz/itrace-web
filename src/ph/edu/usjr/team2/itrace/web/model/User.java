@@ -1,28 +1,24 @@
 package ph.edu.usjr.team2.itrace.web.model;
 
 public class User {
-	
-	private long userId;
-	private String username;
-	private String password;
-	
-	public User(){}
-	
-	public User(String username){
-		this.username = username;
-	}
-	public User(String username,String password){
-		this.username = username;
-		this.password = password;
+
+	private String username, password, email, dateOfBirth, gender;
+
+	public User() {
 	}
 
+	public User(String username) {
+		super();
+		this.username = username;
+	}
 
-	public User(long userId, String username, String password){
-		this.userId = userId;
+	public User(String username, String password, String email, String dateOfBirth, String gender) {
 		this.username = username;
 		this.password = password;
+		this.email = email;
+		this.dateOfBirth = dateOfBirth;
+		this.gender = gender;
 	}
-	
 
 	public String getUsername() {
 		return username;
@@ -39,9 +35,28 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + "]";
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 }
