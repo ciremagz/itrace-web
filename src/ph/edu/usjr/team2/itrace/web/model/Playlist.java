@@ -2,40 +2,23 @@
 package ph.edu.usjr.team2.itrace.web.model;
 
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Transient;
 
+public class Playlist {
 
-public class Playlist{
-	
-	
 	private Long playlistId;
-	
+
 	private String playlistName;
-	
+
 	private List<Song> songs;
-	
+
 	private User user;
-	
+
 	private String[] songIdList;
 
-	public Playlist(){
-		
+	public Playlist() {
+
 	}
-	
-	
-	
+
 	public Playlist(Long playlistId, String playlistName, List<Song> songs, User user, String[] songIdList) {
 		super();
 		this.playlistId = playlistId;
@@ -44,8 +27,6 @@ public class Playlist{
 		this.user = user;
 		this.songIdList = songIdList;
 	}
-
-
 
 	public User getUser() {
 		return user;
@@ -79,33 +60,21 @@ public class Playlist{
 		this.playlistName = playlistName;
 	}
 
-
-	
-
 	public void setPlaylistId(Long playlistId) {
 		this.playlistId = playlistId;
 	}
-
-
 
 	public List<Song> getSongs() {
 		return songs;
 	}
 
-
-
 	public void setSongs(List<Song> songs) {
 		this.songs = songs;
 	}
-
-
 
 	@Override
 	public String toString() {
 		return "Playlist [playlistId=" + playlistId + ", playlistName=" + playlistName + ", songs=" + songs + "]";
 	}
-
-	
-	
 
 }

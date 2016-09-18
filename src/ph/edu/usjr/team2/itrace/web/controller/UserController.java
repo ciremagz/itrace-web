@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -21,8 +20,7 @@ import ph.edu.usjr.team2.itrace.web.model.Message;
 import ph.edu.usjr.team2.itrace.web.model.Playlist;
 import ph.edu.usjr.team2.itrace.web.model.Song;
 import ph.edu.usjr.team2.itrace.web.model.User;
-import ph.edu.usjr.team2.itrace.web.model.Vote;
-import ph.edu.usjr.team2.itrace.web.response.LoginResponse;
+import ph.edu.usjr.team2.itrace.web.response.LibraryResponse;
 import ph.edu.usjr.team2.itrace.web.response.PlaylistResponse;
 import ph.edu.usjr.team2.itrace.web.response.ProfileResponse;
 
@@ -49,12 +47,13 @@ public class UserController {
 		header.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
 
-		LoginResponse loginResponse = restTemplate.postForObject(webHost + "/login", entity, LoginResponse.class);
+		LibraryResponse loginResponse = restTemplate.postForObject(webHost + "/login", entity, LibraryResponse.class);
 		System.out.println(loginResponse.getMessage().getFlag());
 		if (loginResponse.getMessage().getFlag()) {
+			
 			List<Playlist> recentlyPlayedPlaylists = loginResponse.getRecentlyPlayedPlaylists();
 			System.out.println("Received from response lists of playlists");
-
+			
 			for (Playlist pl : recentlyPlayedPlaylists) {
 				// System.out.println("harharharharharh");
 				List<Song> songs = pl.getSongs();
@@ -159,8 +158,12 @@ public class UserController {
 
 	@RequestMapping(value = "/logout")
 	public ModelAndView logout() {
+
 		ModelAndView mav = new ModelAndView("index");
 
 		return mav;
 	}
+	
+	
+	
 }

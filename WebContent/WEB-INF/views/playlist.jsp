@@ -37,6 +37,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-	
+	<a href="library"><button>back</button></a>
 </body>
 </html>

@@ -16,12 +16,12 @@
 
 	<%
 		List<Song> songList = (List) request.getAttribute("songs");
-		
+		String id = String.valueOf((long)request.getAttribute("id")) ;
+		String playlistName = (String) request.getAttribute("playlistName");
 		int counter = 0;
 	%>
 	<p>${system_message}</p>
-	<p>songs in the database are as follows:</p>
-	
+	<h2>${playlistName}</h2>
 	<table>
 		<tr>
 			<th></th>
@@ -41,22 +41,10 @@
 		</c:forEach>
 	</table>
 	<hr>
-	<form action="savePlaylist" method="POST">
-		<input type="text" id="songIdList" name="songIdList" hidden="true"/>
-		<input type="text" name="playlistName" placeholder="playlist name"/>
-		<input type="submit" value="savePlaylist"/>
+	<form action="playPlaylist" method="POST">
+		<input type="text" hidden="true" name="id" value="${id}">
+		<input type="submit" value="play all"/>
 	</form>
-	<%
-		/* int counter = 0;
-		for(Song e:songList){
-			counter++;
-			String songTitle = e.getSongTitle();
-			String artistName = e.getArtist().getArtistName();
-			out.print("<p>"+counter+")"+songTitle+","+artistName+"</p>");
-		} */
-	%>
-
-
-	<a href="playlist"><button>back</button></a>
+	<a href="library"><button>back</button></a>
 </body>
 </html>

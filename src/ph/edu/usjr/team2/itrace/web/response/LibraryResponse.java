@@ -6,17 +6,15 @@ import ph.edu.usjr.team2.itrace.web.model.Message;
 import ph.edu.usjr.team2.itrace.web.model.Playlist;
 import ph.edu.usjr.team2.itrace.web.model.User;
 
-public class LoginResponse {
-	
-	
+public class LibraryResponse {
 	
 	private Message message;
 	private List<Playlist> recentlyPlayedPlaylists;
 	
-	public LoginResponse(){}
+	public LibraryResponse(){}
 
 	
-	public LoginResponse(User user, Message message, List<Playlist> recentlyPlayedPlaylists){
+	public LibraryResponse(User user, Message message, List<Playlist> recentlyPlayedPlaylists){
 		this.message = message;
 		this.recentlyPlayedPlaylists = recentlyPlayedPlaylists;
 	}
