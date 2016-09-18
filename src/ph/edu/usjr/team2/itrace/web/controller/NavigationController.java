@@ -107,11 +107,16 @@ public class NavigationController {
 				}
 				mav.addObject("playlists", playlists);
 			} else {
-
+				
 			}
+<<<<<<< HEAD
 		}else{
 			mav.addObject("system_message", "you do not have a saved playlist yet.");
 			
+=======
+		}{
+			mav.addObject("system_message", "you do not have any playlist yet.");
+>>>>>>> master
 		}
 
 		return mav;
@@ -179,6 +184,7 @@ public class NavigationController {
 		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
 
 		RestTemplate restTemplate = new RestTemplate();
+
 		PlaylistSongsResponse psResponse = restTemplate.postForObject(webHost + "/playlistSong", entity,
 				PlaylistSongsResponse.class);
 		if (psResponse.getMessage().getFlag()) {

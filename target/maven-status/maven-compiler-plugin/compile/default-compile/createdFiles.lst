@@ -1,9 +1,0 @@
-ph\edu\usjr\team2\itrace\web\core\PasswordEncyrptor.class
-ph\edu\usjr\team2\itrace\web\model\Watcher.class
-ph\edu\usjr\team2\itrace\web\controller\WebController.class
-ph\edu\usjr\team2\itrace\web\model\Precinct.class
-ph\edu\usjr\team2\itrace\web\controller\UserController.class
-ph\edu\usjr\team2\itrace\web\controller\NavigationController.class
-ph\edu\usjr\team2\itrace\web\model\User.class
-ph\edu\usjr\team2\itrace\web\json\MessageJson.class
-ph\edu\usjr\team2\itrace\web\json\RegistrationRequestJson.class
