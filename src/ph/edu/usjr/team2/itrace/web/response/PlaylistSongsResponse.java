@@ -7,27 +7,19 @@ import ph.edu.usjr.team2.itrace.web.model.Playlist;
 import ph.edu.usjr.team2.itrace.web.model.Song;
 
 public class PlaylistSongsResponse {
-	private List<Song> songsOnPlaylist;
+	private Playlist playlist;
 	private Message message;
-	
-	public PlaylistSongsResponse(){}
-	
-	
 
-
-	public List<Song> getSongsOnPlaylist() {
-		return songsOnPlaylist;
+	public PlaylistSongsResponse() {
 	}
 
-
-
-
-	public void setSongsOnPlaylist(List<Song> songsOnPlaylist) {
-		this.songsOnPlaylist = songsOnPlaylist;
+	public Playlist getPlaylist() {
+		return playlist;
 	}
 
-
-
+	public void setPlaylist(Playlist playlist) {
+		this.playlist = playlist;
+	}
 
 	public Message getMessage() {
 		return message;
@@ -36,6 +28,5 @@ public class PlaylistSongsResponse {
 	public void setMessage(Message message) {
 		this.message = message;
 	}
-	
 	
 }

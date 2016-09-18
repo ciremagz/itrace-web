@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import ph.edu.usjr.team2.itrace.web.model.Playlist;
 import ph.edu.usjr.team2.itrace.web.model.Song;
 import ph.edu.usjr.team2.itrace.web.model.User;
+import ph.edu.usjr.team2.itrace.web.response.LibraryResponse;
 import ph.edu.usjr.team2.itrace.web.response.PlaylistResponse;
 import ph.edu.usjr.team2.itrace.web.response.PlaylistSongsResponse;
 import ph.edu.usjr.team2.itrace.web.response.SearchResponse;
@@ -36,8 +37,39 @@ public class NavigationController {
 	}
 
 	@RequestMapping(value = "/library")
-	public String home() {
-		return "library";
+	public ModelAndView home(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("library");
+		User user = new User((String) request.getSession().getAttribute("username"));
+		// converting user object to json
+		Gson gson = new Gson();
+		String userJson = gson.toJson(user);
+
+		// adding the object to the headers
+		HttpHeaders header = new HttpHeaders();
+		header.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
+		RestTemplate restTemplate = new RestTemplate();
+
+		LibraryResponse libraryResponse = restTemplate.postForObject(webHost + "/library", entity,
+				LibraryResponse.class);
+		if (libraryResponse.getMessage().getFlag()) {
+
+			List<Playlist> recentlyPlayedPlaylists = libraryResponse.getRecentlyPlayedPlaylists();
+			System.out.println("Received from response lists of playlists");
+
+			for (Playlist pl : recentlyPlayedPlaylists) {
+				// System.out.println("harharharharharh");
+				List<Song> songs = pl.getSongs();
+				System.out.println("Playlist Name: " + pl.getPlaylistName());
+				for (Song s : songs) {
+					System.out.println("\ttitle: " + s.getSongTitle());
+				}
+			}
+			mav.addObject("playlists", recentlyPlayedPlaylists);
+		} else {
+			mav.addObject("system_message", libraryResponse.getMessage().getMessage());
+		}
+		return mav;
 	}
 
 	@RequestMapping(value = "/registration")
@@ -126,14 +158,14 @@ public class NavigationController {
 	}
 
 	@RequestMapping(value = "/playlistSongs", method = RequestMethod.POST)
-	public ModelAndView showPlaylistSongs(@RequestParam(value = "id") long id,HttpServletRequest request) {
+	public ModelAndView showPlaylistSongs(@RequestParam(value = "id") long id, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("playlistSongs");
 
 		Map<String, String> data = new HashMap<>();
-		
+
 		data.put("id", String.valueOf(id));
-		data.put("username", (String)request.getSession().getAttribute("username"));
-		
+		data.put("username", (String) request.getSession().getAttribute("username"));
+
 		// converting user object to json
 		Gson gson = new Gson();
 		String userJson = gson.toJson(data);
@@ -144,16 +176,20 @@ public class NavigationController {
 		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
 
 		RestTemplate restTemplate = new RestTemplate();
-		PlaylistSongsResponse psResponse = restTemplate.postForObject(webHost + "/playlistSong", entity,PlaylistSongsResponse.class);
-		if(psResponse.getMessage().getFlag()){
-			System.out.println("Received response list of song for playlist: "+id);
-			for(Song e: psResponse.getSongsOnPlaylist()){
+
+		PlaylistSongsResponse psResponse = restTemplate.postForObject(webHost + "/playlistSong", entity,
+				PlaylistSongsResponse.class);
+		if (psResponse.getMessage().getFlag()) {
+			System.out.println("Received response list of song for playlist: " + id);
+			for (Song e : psResponse.getPlaylist().getSongs()) {
 				System.out.println(e.toString());
 			}
-			mav.addObject("songs", psResponse.getSongsOnPlaylist());
-		}else{
-			mav.addObject("system_message",psResponse.getMessage().getMessage());
-		}		
+			mav.addObject("songs", psResponse.getPlaylist().getSongs());
+			mav.addObject("playlistName", psResponse.getPlaylist().getPlaylistName());
+			mav.addObject("id", id);
+		} else {
+			mav.addObject("system_message", psResponse.getMessage().getMessage());
+		}
 		return mav;
 	}
 
