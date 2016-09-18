@@ -3,8 +3,8 @@ package ph.edu.usjr.team2.itrace.web.model;
 
 import java.util.List;
 
-public class Playlist {
-
+public class Playlist{
+	
 	private Long playlistId;
 
 	private String playlistName;

@@ -176,6 +176,7 @@ public class NavigationController {
 		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
 
 		RestTemplate restTemplate = new RestTemplate();
+
 		PlaylistSongsResponse psResponse = restTemplate.postForObject(webHost + "/playlistSong", entity,
 				PlaylistSongsResponse.class);
 		if (psResponse.getMessage().getFlag()) {
