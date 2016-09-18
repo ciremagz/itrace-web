@@ -107,16 +107,8 @@ public class NavigationController {
 				}
 				mav.addObject("playlists", playlists);
 			} else {
-				
-			}
-<<<<<<< HEAD
-		}else{
-			mav.addObject("system_message", "you do not have a saved playlist yet.");
-			
-=======
-		}{
-			mav.addObject("system_message", "you do not have any playlist yet.");
->>>>>>> master
+				mav.addObject("system_message", "you do not have any playlist yet.");
+			}			
 		}
 
 		return mav;
