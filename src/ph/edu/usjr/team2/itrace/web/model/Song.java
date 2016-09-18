@@ -1,52 +1,69 @@
 package ph.edu.usjr.team2.itrace.web.model;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Transient;
-
-import org.hibernate.metamodel.relational.IllegalIdentifierException;
-import org.springframework.web.multipart.MultipartFile;
 
 
 public class Song {
 
-	
 	private long songId;
-	
+
 	private String songTitle;
 
 	private String artistName;
 
+	private int distance;
+
+	private File file;
+
+	// connects the song to the artist class
+
 	private Artist artist;
 
-	public Song(){}
-	
-	public long getSongId() {
-		return songId;
+	private String lyrics = "";
+
+	private String filePath;
+
+	public Song() {
+
 	}
 
-	public void setSongId(long songId) {
-		this.songId = songId;
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public void setArtist(Artist artist) {
+		this.artist = artist;
+	}
+
+	public Song(String songTitle, String artistName) {
+		this.artistName = artistName;
+		this.songTitle = songTitle;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public String getLyrics() {
+		return lyrics;
+	}
+
+	public long getSongId() {
+		return songId;
 	}
 
 	public String getSongTitle() {
 		return songTitle;
 	}
 
-	public void setSongTitle(String songTitle) {
-		this.songTitle = songTitle;
+	public Artist getArtist() {
+		return artist;
 	}
 
 	public String getArtistName() {
@@ -57,12 +74,33 @@ public class Song {
 		this.artistName = artistName;
 	}
 
-	public Artist getArtist() {
-		return artist;
+	public void setSongTitle(String songTitle) {
+		this.songTitle = songTitle;
 	}
 
-	public void setArtist(Artist artist) {
-		this.artist = artist;
+	public void setDistance(int distance) {
+		this.distance = distance;
 	}
 
+	public int getDistance() {
+		return this.distance;
+	}
+
+	public void setLyrics(String lyrics) {
+		this.lyrics = lyrics;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setSongId(long songId) {
+		this.songId = songId;
+	}
+
+	@Override
+	public String toString() {
+		return "Song [songId=" + songId + ", songTitle=" + songTitle + ", artist= " + artist.getArtistName() + "]";
+	}
+	
 }

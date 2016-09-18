@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +20,7 @@ import ph.edu.usjr.team2.itrace.web.model.Message;
 import ph.edu.usjr.team2.itrace.web.model.Playlist;
 import ph.edu.usjr.team2.itrace.web.model.Song;
 import ph.edu.usjr.team2.itrace.web.model.User;
-import ph.edu.usjr.team2.itrace.web.model.Vote;
+import ph.edu.usjr.team2.itrace.web.response.LibraryResponse;
 import ph.edu.usjr.team2.itrace.web.response.PlaylistResponse;
 import ph.edu.usjr.team2.itrace.web.response.ProfileResponse;
 
@@ -48,20 +47,31 @@ public class UserController {
 		header.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
 
-		User fetchedUser = restTemplate.postForObject(webHost + "/login", entity, User.class);
-
-		if (fetchedUser == null) {
-			mav.setViewName("index");
-			mav.addObject("system_message", "wrong input");
-		} else {
-			System.out.println("fetchedUser(UI)" + fetchedUser.toString());
+		LibraryResponse loginResponse = restTemplate.postForObject(webHost + "/login", entity, LibraryResponse.class);
+		System.out.println(loginResponse.getMessage().getFlag());
+		if (loginResponse.getMessage().getFlag()) {
+			
+			List<Playlist> recentlyPlayedPlaylists = loginResponse.getRecentlyPlayedPlaylists();
+			System.out.println("Received from response lists of playlists");
+			
+			for (Playlist pl : recentlyPlayedPlaylists) {
+				// System.out.println("harharharharharh");
+				List<Song> songs = pl.getSongs();
+				System.out.println("Playlist Name: " + pl.getPlaylistName());
+				for (Song s : songs) {
+					System.out.println("\ttitle: " + s.getSongTitle());
+				}
+			}
+			mav.addObject("playlists", recentlyPlayedPlaylists);
 			mav.setViewName("library");
+			// creating session
+			session.invalidate();
+			HttpSession newSession = request.getSession();
+			newSession.setAttribute("username", user.getUsername());
+		} else {
+			mav.setViewName("index");
+			mav.addObject("system_message", loginResponse.getMessage().getMessage());
 		}
-
-		// creating session
-		session.invalidate();
-		HttpSession newSession = request.getSession();
-		newSession.setAttribute("username", fetchedUser.getUsername());
 
 		return mav;
 	}
@@ -116,41 +126,44 @@ public class UserController {
 		return mav;
 	}
 
-	@RequestMapping(value="/savePlaylist")
-	public ModelAndView savePlayList(
-			@RequestParam("songIdList") String[] songIdList,
-			@RequestParam("playlistName") String playlistName,
-			HttpServletRequest request){
-		ModelAndView mav = new ModelAndView("playlist");
+	@RequestMapping(value = "/savePlaylist")
+	public ModelAndView savePlayList(@RequestParam("songIdList") String[] songIdList,
+			@RequestParam("playlistName") String playlistName, HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
 		String username = (String) request.getSession().getAttribute("username");
 		System.out.println("Running UserController.savePlaylist().");
-		System.out.println("Username from session: "+username);
-		
+		System.out.println("Username from session: " + username);
+
 		RestTemplate restTemplate = new RestTemplate();
 		Playlist playlist = new Playlist();
 		User user = new User(username);
 		playlist.setSongIdList(songIdList);
 		playlist.setUser(user);
 		playlist.setPlaylistName(playlistName);
-		
+
 		// converting user object to json
 		Gson gson = new Gson();
 		String userJson = gson.toJson(playlist);
-		
-		
+
 		// adding the object to the headers
 		HttpHeaders header = new HttpHeaders();
 		header.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
-		PlaylistResponse playlistResponse = restTemplate.postForObject(webHost+"/savePlaylist", entity, PlaylistResponse.class);
-		
+		PlaylistResponse playlistResponse = restTemplate.postForObject(webHost + "/savePlaylist", entity,
+				PlaylistResponse.class);
+		NavigationController nc = new NavigationController();
+		mav = nc.showPlaylist(request);
 		return mav;
 	}
 
 	@RequestMapping(value = "/logout")
 	public ModelAndView logout() {
+
 		ModelAndView mav = new ModelAndView("index");
 
 		return mav;
 	}
+	
+	
+	
 }
