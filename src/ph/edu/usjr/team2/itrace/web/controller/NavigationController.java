@@ -109,6 +109,9 @@ public class NavigationController {
 			} else {
 
 			}
+		}else{
+			mav.addObject("system_message", "you do not have a saved playlist yet.");
+			
 		}
 
 		return mav;
