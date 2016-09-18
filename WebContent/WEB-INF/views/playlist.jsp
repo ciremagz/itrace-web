@@ -12,10 +12,6 @@
 <body>
 	<%
 		List<Playlist> playlists = (List<Playlist>)request.getAttribute("playlists");
-		String system_message = "";
-		if(playlists == null){
-			system_message = "you do not have a playlist yet.";
-		}
 	%>
 	<h1>Playlist</h1>
 	<p>show all list of playlist created by the user here</p>

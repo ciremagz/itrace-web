@@ -107,8 +107,10 @@ public class NavigationController {
 				}
 				mav.addObject("playlists", playlists);
 			} else {
-
+				
 			}
+		}{
+			mav.addObject("system_message", "you do not have any playlist yet.");
 		}
 
 		return mav;
