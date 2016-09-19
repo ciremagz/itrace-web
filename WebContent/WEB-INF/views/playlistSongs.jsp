@@ -25,6 +25,7 @@
 	<table>
 		<tr>
 			<th></th>
+			<th></th>
 			<th>-</th>
 			<th>Title</th>
 			<th>Artist</th>
@@ -32,7 +33,19 @@
 		<c:forEach var="i" items="${songs}" varStatus="loopCounter">
 			<tr>
 				<td>
-					<button onclick="addToPlaylist(this.id)" id="${i.getSongId()}">remove</button>
+					<form action="removeToPlaylist" method="post">
+						<input type="text"  name="songId" value="${i.getSongId()}" hidden="true"/>
+						<input type="text" name="playlistId" value="${id}" hidden="true"/>
+						<input type="submit" value="remove">
+					</form>
+					
+				</td>
+				<td>
+					<form action="playThisPlaylist" method="post">
+						<input type="text"  name="songId" value="${i.getSongId()}" hidden="true"/>
+						<input type="text" name="playlistId" value="${id}" hidden="true"/>
+						<input type="submit" value="play">
+					</form>
 				</td>
 				<td><c:out value="${loopCounter.count}.)" /></td>
 				<td><c:out value="${i.getSongTitle()}" /></td>

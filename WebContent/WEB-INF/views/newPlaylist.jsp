@@ -13,49 +13,10 @@
 	<script type="text/javascript" src="${mainJs}"></script>
 </head>
 <body>
-
-	<%
-		List<Song> songList = (List) request.getAttribute("songList");
-		int counter = 0;
-	%>
-
-	<p>songs in the database are as follows:</p>
-
-	<table>
-		<tr>
-			<th></th>
-			<th>-</th>
-			<th>Title</th>
-			<th>Artist</th>
-		</tr>
-		<c:forEach var="i" items="${songList}" varStatus="loopCounter">
-			<tr>
-				<td>
-					<button onclick="addToPlaylist(this.id)" id="${i.getSongId()}">add</button>
-				</td>
-				<td><c:out value="${loopCounter.count}.)" /></td>
-				<td><c:out value="${i.getSongTitle()}" /></td>
-				<td><c:out value="${i.getArtist().getArtistName()}" /></td>
-			</tr>
-		</c:forEach>
-	</table>
-	<hr>
 	<form action="savePlaylist" method="POST">
-		<input type="text" id="songIdList" name="songIdList" hidden="true"/>
 		<input type="text" name="playlistName" placeholder="playlist name"/>
 		<input type="submit" value="savePlaylist"/>
 	</form>
-	<%
-		/* int counter = 0;
-		for(Song e:songList){
-			counter++;
-			String songTitle = e.getSongTitle();
-			String artistName = e.getArtist().getArtistName();
-			out.print("<p>"+counter+")"+songTitle+","+artistName+"</p>");
-		} */
-	%>
-
-
 	<a href="playlist"><button>back</button></a>
 </body>
 </html>

@@ -57,12 +57,7 @@ public class UserController {
 			if(recentlyPlayedPlaylists != null){
 				for (Playlist pl : recentlyPlayedPlaylists) {
 					// System.out.println("harharharharharh");
-					
-					List<Song> songs = pl.getSongs();
 					System.out.println("Playlist Name: " + pl.getPlaylistName());
-					for (Song s : songs) {
-						System.out.println("\ttitle: " + s.getSongTitle());
-					}
 				}
 				mav.addObject("playlists", recentlyPlayedPlaylists);
 			}else{
@@ -129,36 +124,6 @@ public class UserController {
 	public ModelAndView deleteUser(@PathVariable("username") String username) {
 		ModelAndView mav = new ModelAndView("login");
 		// insert rest service here to delete the user
-		return mav;
-	}
-
-	@RequestMapping(value = "/savePlaylist")
-	public ModelAndView savePlayList(@RequestParam("songIdList") String[] songIdList,
-			@RequestParam("playlistName") String playlistName, HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		String username = (String) request.getSession().getAttribute("username");
-		System.out.println("Running UserController.savePlaylist().");
-		System.out.println("Username from session: " + username);
-
-		RestTemplate restTemplate = new RestTemplate();
-		Playlist playlist = new Playlist();
-		User user = new User(username);
-		playlist.setSongIdList(songIdList);
-		playlist.setUser(user);
-		playlist.setPlaylistName(playlistName);
-
-		// converting user object to json
-		Gson gson = new Gson();
-		String userJson = gson.toJson(playlist);
-
-		// adding the object to the headers
-		HttpHeaders header = new HttpHeaders();
-		header.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
-		PlaylistResponse playlistResponse = restTemplate.postForObject(webHost + "/savePlaylist", entity,
-				PlaylistResponse.class);
-		NavigationController nc = new NavigationController();
-		mav = nc.showPlaylist(request);
 		return mav;
 	}
 
