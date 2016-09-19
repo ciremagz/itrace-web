@@ -53,17 +53,12 @@ public class NavigationController {
 		LibraryResponse libraryResponse = restTemplate.postForObject(webHost + "/library", entity,
 				LibraryResponse.class);
 		if (libraryResponse.getMessage().getFlag()) {
-
 			List<Playlist> recentlyPlayedPlaylists = libraryResponse.getRecentlyPlayedPlaylists();
 			System.out.println("Received from response lists of playlists");
-
 			for (Playlist pl : recentlyPlayedPlaylists) {
 				// System.out.println("harharharharharh");
-				List<Song> songs = pl.getSongs();
 				System.out.println("Playlist Name: " + pl.getPlaylistName());
-				for (Song s : songs) {
-					System.out.println("\ttitle: " + s.getSongTitle());
-				}
+				
 			}
 			mav.addObject("playlists", recentlyPlayedPlaylists);
 		} else {
@@ -108,18 +103,25 @@ public class NavigationController {
 				mav.addObject("playlists", playlists);
 			} else {
 				mav.addObject("system_message", "you do not have any playlist yet.");
-			}			
+			}
 		}
-
+		
 		return mav;
 	}
 
-	@RequestMapping(value = "/songList", method = RequestMethod.GET)
+	@RequestMapping(value = "/songlist")
 	public ModelAndView showSongList() {
-		ModelAndView mav = new ModelAndView("songList");
-
+		ModelAndView mav = new ModelAndView("songlist");
 		RestTemplate restTemplate = new RestTemplate();
-		SongListResponse slr = restTemplate.getForObject(webHost + "/songList", SongListResponse.class);
+		SongListResponse songListResponse = restTemplate.getForObject(webHost + "/songlist", SongListResponse.class);
+		if (songListResponse.getMessage().getFlag()) {
+			for (Song s : songListResponse.getSongs()) {
+				System.out.println(">> " + s.toString());
+			}
+			mav.addObject("songs", songListResponse.getSongs());
+		} else {
+			mav.addObject("system_message", songListResponse.getMessage().getMessage());
+		}
 		return mav;
 	}
 
@@ -131,29 +133,16 @@ public class NavigationController {
 	@RequestMapping(value = "/newPlaylist")
 	public ModelAndView showMakePlayListPage() {
 		ModelAndView mav = new ModelAndView("newPlaylist");
-		RestTemplate restTemplate = new RestTemplate();
-		SongListResponse songListResponse = restTemplate.getForObject(webHost + "/songList", SongListResponse.class);
-		if (songListResponse.getMessage().getFlag()) {
-			mav.addObject("songList", songListResponse.getSongs());
-		} else {
-			mav.addObject("system_message", songListResponse.getMessage().getMessage());
-		}
 		return mav;
 	}
 
 	@RequestMapping(value = "/search")
-	public ModelAndView showSearch(@RequestParam(value = "searchString") String searchString) {
+	public ModelAndView showSearch() {
 		ModelAndView mav = new ModelAndView("search");
-
 		RestTemplate restTemplate = new RestTemplate();
-
-		// adding the object to the headers
-		HttpHeaders header = new HttpHeaders();
-		header.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> entity = new HttpEntity<String>(searchString, header);
-
-		SearchResponse searchResponse = restTemplate.postForObject(webHost + "/search", entity, SearchResponse.class);
+		SongListResponse searchResponse = restTemplate.getForObject(webHost + "/songList", SongListResponse.class);
 		mav.addObject("system_message", searchResponse.getMessage().getMessage());
+
 		return mav;
 	}
 
