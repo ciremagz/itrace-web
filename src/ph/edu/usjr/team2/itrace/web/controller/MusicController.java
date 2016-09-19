@@ -29,10 +29,34 @@ import ph.edu.usjr.team2.itrace.web.response.RemoveToPlaylistResponse;
 public class MusicController {
 	private String webHost = "http://localhost:8081/syntones-web";
 
+	@RequestMapping(value = "/removePlaylist", method = RequestMethod.POST)
+	public ModelAndView removePlaylist(HttpServletRequest request, @RequestParam("playlistId") long playlistId) {
+		Playlist playlist = new Playlist();
+		playlist.setPlaylistId(playlistId);
+		String username = (String)request.getSession().getAttribute("username");
+		User user = new User(username);
+		playlist.setUser(user);
+		// converting user object to json
+		Gson gson = new Gson();
+		String userJson = gson.toJson(playlist);
+
+		// adding the object to the headers
+		HttpHeaders header = new HttpHeaders();
+		header.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> entity = new HttpEntity<String>(userJson, header);
+
+		RestTemplate restTemplate = new RestTemplate();
+		RemoveToPlaylistResponse rtpResponse = restTemplate.postForObject(webHost + "/removePlaylist", entity,
+				RemoveToPlaylistResponse.class);
+		NavigationController nc = new NavigationController();
+		ModelAndView mav = nc.showPlaylist(request);
+		return mav;
+	}
+
 	@RequestMapping(value = "/removeToPlaylist")
 	public ModelAndView removeToPlaylist(HttpServletRequest request, @RequestParam("songId") long songId,
 			@RequestParam("playlistId") long playlistId) {
-		
+
 		String username = (String) request.getSession().getAttribute("usename");
 		User user = new User(username);
 		PlaylistSong playlistSong = new PlaylistSong(songId, playlistId, user);
@@ -160,9 +184,9 @@ public class MusicController {
 		System.out.println(psResponse.getPlaylist().getSongs().get(0).getLyrics());
 		return mav;
 	}
+
 	@RequestMapping(value = "/savePlaylist")
-	public ModelAndView savePlayList(
-			@RequestParam("playlistName") String playlistName, HttpServletRequest request) {
+	public ModelAndView savePlayList(@RequestParam("playlistName") String playlistName, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		String username = (String) request.getSession().getAttribute("username");
 		System.out.println("Running UserController.savePlaylist().");
@@ -171,7 +195,7 @@ public class MusicController {
 		RestTemplate restTemplate = new RestTemplate();
 		Playlist playlist = new Playlist();
 		User user = new User(username);
-		
+
 		playlist.setUser(user);
 		playlist.setPlaylistName(playlistName);
 
