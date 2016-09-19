@@ -100,7 +100,9 @@ public class Song {
 
 	@Override
 	public String toString() {
-		return "Song [songId=" + songId + ", songTitle=" + songTitle + ", artist= " + artist.getArtistName() + "]";
+		return "Song [songId=" + songId + ", songTitle=" + songTitle + ", artistName=" + artistName + ", lyrics="
+				+ lyrics + "]";
 	}
+
 	
 }

@@ -1,10 +1,9 @@
-<%@page import="ph.edu.usjr.team2.itrace.web.model.Playlist"%>
+<%@page import="ph.edu.usjr.team2.itrace.web.model.Song"%>
 <%@page import="java.util.List"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,31 +12,34 @@
 </head>
 <body>
 	<%
-		List<Playlist> playlists = (List<Playlist>)request.getAttribute("playlists");
+		List<Song> songs = (List<Song>) request.getAttribute("songs");
+		int counter = 0;
 	%>
-	<h1>Playlist</h1>
-	<p>show all list of playlist created by the user here</p>
-	<a href="newPlaylist"><button>Make new Playlist</button></a>
-	<p>${system_message}</p>
+
+	<p>songs in the database are as follows:</p>
+
 	<table>
 		<tr>
 			<th></th>
 			<th>-</th>
-			<th>Playlist Name</th>
+			<th>Title</th>
+			<th>Artist</th>
 		</tr>
-		<c:forEach var="i" items="${playlists}" varStatus="loopCounter">
+		<c:forEach var="i" items="${songs}" varStatus="loopCounter">
 			<tr>
 				<td>
-					<form action="playlistSongs" method="post">
-						<input type="text" value="${i.getPlaylistId()}" name="id" hidden="true"/>
-						<input type="submit" value="show"/>
+					<form action="showAddToPlaylist" method="post">
+						<input type="text" value="${i.getSongId()}" name="songId" hidden="true"/>
+						<input type="submit" value="add to playlist"/>
 					</form>
 				</td>
 				<td><c:out value="${loopCounter.count}.)" /></td>
-				<td><c:out value="${i.getPlaylistName()}" /></td>
+				<td><c:out value="${i.getSongTitle()}" /></td>
+				<td><c:out value="${i.getArtist().getArtistName()}" /></td>
 			</tr>
 		</c:forEach>
 	</table>
+	<hr>
 	<a href="library"><button>back</button></a>
 </body>
 </html>
