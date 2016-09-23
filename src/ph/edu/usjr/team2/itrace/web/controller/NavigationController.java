@@ -20,12 +20,15 @@ import com.google.gson.Gson;
 
 import ph.edu.usjr.team2.itrace.web.model.Playlist;
 import ph.edu.usjr.team2.itrace.web.model.Song;
+import ph.edu.usjr.team2.itrace.web.model.Tag;
 import ph.edu.usjr.team2.itrace.web.model.User;
+import ph.edu.usjr.team2.itrace.web.response.ArtistResponse;
 import ph.edu.usjr.team2.itrace.web.response.LibraryResponse;
 import ph.edu.usjr.team2.itrace.web.response.PlaylistResponse;
 import ph.edu.usjr.team2.itrace.web.response.PlaylistSongsResponse;
 import ph.edu.usjr.team2.itrace.web.response.SearchResponse;
 import ph.edu.usjr.team2.itrace.web.response.SongListResponse;
+import ph.edu.usjr.team2.itrace.web.response.TagsResponse;
 
 @Controller
 public class NavigationController {
@@ -36,6 +39,33 @@ public class NavigationController {
 		return "index";
 	}
 
+	
+	@RequestMapping(value="/showArtists")
+	public ModelAndView generatePlaylistByArtist(HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("showArtists");
+		RestTemplate restTemplate = new RestTemplate();
+		ArtistResponse artistResponse = restTemplate.getForObject(webHost+"/getAllArtists", ArtistResponse.class);
+//		for(Tag e: tagResponse.getTags()){
+//			System.out.println(">>> "+e.getTag());
+//		}
+		mav.addObject("artists",artistResponse.getArtists());
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/showTags")
+	public ModelAndView showTagsPage(HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("showTags");
+		RestTemplate restTemplate = new RestTemplate();
+		TagsResponse tagResponse = restTemplate.getForObject(webHost+"/getAllTags", TagsResponse.class);
+//		for(Tag e: tagResponse.getTags()){
+//			System.out.println(">>> "+e.getTag());
+//		}
+		mav.addObject("tags",tagResponse.getTags());
+		return mav;
+	}
+	
+	
 	@RequestMapping(value = "/library")
 	public ModelAndView home(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("library");
@@ -71,7 +101,12 @@ public class NavigationController {
 	public String registration() {
 		return "registration";
 	}
-
+	
+	@RequestMapping(value="/index")
+	public String login(){
+		return "index";
+	}
+	
 	@RequestMapping(value = "/playlist")
 	public ModelAndView showPlaylist(HttpServletRequest request) {
 		// requires userId / username

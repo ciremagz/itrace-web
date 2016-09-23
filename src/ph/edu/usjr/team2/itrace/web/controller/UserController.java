@@ -18,21 +18,20 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import ph.edu.usjr.team2.itrace.web.model.Message;
 import ph.edu.usjr.team2.itrace.web.model.Playlist;
-import ph.edu.usjr.team2.itrace.web.model.Song;
 import ph.edu.usjr.team2.itrace.web.model.User;
 import ph.edu.usjr.team2.itrace.web.response.LibraryResponse;
 
-import ph.edu.usjr.team2.itrace.web.response.PlaylistResponse;
 import ph.edu.usjr.team2.itrace.web.response.ProfileResponse;
 
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class UserController {
 	private String webHost = "http://localhost:8081/syntones-web";
 
+	
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute User user, HttpSession session, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
