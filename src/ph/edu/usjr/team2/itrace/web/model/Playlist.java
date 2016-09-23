@@ -13,12 +13,31 @@ public class Playlist{
 
 	private User user;
 
+	private long[] songIds;
+	
 	private long songId;
 
 	public Playlist() {
 
 	}
 	
+	
+	
+	
+	public long[] getSongIds() {
+		return songIds;
+	}
+
+
+
+
+	public void setSongIds(long[] songIds) {
+		this.songIds = songIds;
+	}
+
+
+
+
 	public Playlist(long playlistId,long songId){
 		this.playlistId = playlistId;
 		this.songId = songId;

@@ -1,10 +1,10 @@
 
-var songs = [];
+var tags = [];
 
-function addToPlaylist(id){
-	songs.push(id);
-	console.log(songs);
-	document.getElementById("songIdList").value = songs;
+function pushTag(tag){
+	tags.push(tag);
+	console.log(tags);
+	document.getElementById("tags").value = tags;
 }
 
 function songQueue(queue){

@@ -27,6 +27,10 @@
 	<a href="songlist"><button>show songs saved on the database</button></a>
 	<br>
 	<a href="playlist"><button>show playlist</button></a>
+	<br>
+	<a href="showTags"><button>make me a playlist using tags</button></a>
+	<br>
+	<a href="showArtists"><button>make me a playlist using Artists</button></a>
 
 	<p>recently played playlist</p>
 
